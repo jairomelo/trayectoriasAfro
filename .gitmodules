@@ -1,0 +1,6 @@
+[submodule "mstdb_manager"]
+	path = mstdb_manager
+	url = git@github.com:jairomelo/mstdb_manager.git
+[submodule "mstdb_theme"]
+	path = mstdb_theme
+	url = git@github.com:jairomelo/mstdb_theme.git
