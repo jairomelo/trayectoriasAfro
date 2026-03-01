@@ -1,0 +1,26 @@
+# Development override for docker-compose.yml
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"  # Expose for local DB access
+
+  web:
+    build:
+      context: .
+      dockerfile: ./mstdb_manager/Dockerfile
+      target: development  # Use development stage
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=mdb.settings
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount source code for hot-reload
+      - ./mstdb_manager:/app
+      - ./mstdb_theme/build:/app/staticfiles/frontend
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true

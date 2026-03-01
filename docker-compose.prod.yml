@@ -1,0 +1,56 @@
+# Production override for docker-compose.yml
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  postgres:
+    restart: always
+    # Don't expose port to host in production
+    ports: []
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./mstdb_manager/Dockerfile
+      target: production
+    environment:
+      - DEBUG=False
+      - DJANGO_SETTINGS_MODULE=mdb.settings
+    # Remove volume mounts - use built image
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - ./backups:/backups
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  nginx:
+    image: nginx:alpine
+    container_name: trayectorias_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - static_volume:/staticfiles:ro
+      - media_volume:/media:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - web
+    networks:
+      - trayectorias_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
