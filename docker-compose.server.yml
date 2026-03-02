@@ -1,0 +1,15 @@
+# Server override: host Nginx handles SSL, so the Docker nginx service is excluded.
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.server.yml up -d
+
+services:
+  nginx:
+    profiles:
+      - disabled
+
+  web:
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  frontend:
+    ports:
+      - "127.0.0.1:3000:80"

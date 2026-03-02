@@ -4,8 +4,6 @@
 services:
   postgres:
     restart: always
-    # Don't expose port to host in production
-    ports: []
     logging:
       driver: "json-file"
       options:
