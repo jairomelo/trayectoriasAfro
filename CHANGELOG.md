@@ -53,6 +53,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Views
 - Added *Mapa de trayectorias* view to `PersonaEsclavizada` search results, visualizing geographic trajectories for the current result set
 
+#### Accessibility
+
+- Set `lang="es"` on the root `<html>` element (WCAG 3.1.1).
+- Added skip-to-main-content link as the first focusable element on every page (WCAG 2.4.1).
+- Added unique, descriptive `<title>` to all routes, including dynamic titles for detail pages (WCAG 2.4.2).
+- Added visible focus indicator (`:focus-visible`) to all interactive elements; removed `outline: none` from login inputs (WCAG 2.4.7).
+- Added `aria-current="page"` to active navigation links (WCAG 4.1.2).
+- Replaced anchor-as-button pattern with semantic `<button>` for the "Acerca de" navbar dropdown trigger (WCAG 4.1.2).
+- Added accessible names to all icon-only buttons: search submit, clear, and all pagination controls in the Search view (WCAG 4.1.2).
+- Added visually-hidden labels and linked error messages (`aria-describedby`) to all login form fields; added `autocomplete` attributes (WCAG 1.3.5, 3.3.1, 3.3.2).
+- Added focus trap (`focusTrap` Svelte action) to SlideOver and ConfirmDelete modals; focus returns to the trigger element on close (WCAG 2.1.2).
+- Added `Space` key support alongside `Enter` for keyboard-activated entity section cards (WCAG 2.1.1).
+- Added `aria-invalid` and `aria-describedby` to `FlexDateInput` (WCAG 4.1.2).
+- Fixed footer link and heading contrast: `#e8d5c4` on `#2c2c2c` (~8:1) replacing `#8e3b23` (~1.86:1) (WCAG 1.4.3).
+- Fixed inactive Browse tab label contrast: `#595959` on white (~7.1:1) replacing `#999` (~2.84:1) (WCAG 1.4.3).
+- Fixed `btn-outline-secondary` color: `#4d6578` on `#f8f5f2` (~5.7:1) replacing `#5f7a8c` (~4.15:1) (WCAG 1.4.3).
+- Added `prefers-reduced-motion` support: disables hero zoom animation, scroll-button bounce, and AOS transitions (WCAG 2.3.3).
+- Added `aria-hidden="true"` to all decorative Bootstrap icons across landing, login, and search views (WCAG 1.1.1).
+- Added `/Accessibility` route with a Declaration of Accessibility covering conformance status, measures adopted, known limitations, and feedback channel.
+- Added GitHub issue template (`accessibility-issue.md`) for structured accessibility barrier reports.
+- Added automated WCAG 2.1 AA regression tests with `@axe-core/playwright` covering six main routes (WCAG conformance verification).
+
 ---
 
 ## [1.0.0] - 2026-03-05
