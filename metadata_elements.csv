@@ -10,7 +10,7 @@ personas_esclavizadas.csv,altura,Texto
 personas_esclavizadas.csv,cabello,Texto
 personas_esclavizadas.csv,ojos,Texto
 personas_esclavizadas.csv,calidades,Texto (valores |-delimitados)
-personas_esclavizadas.csv,hispanizacion,Texto (valores |-delimitados)
+personas_esclavizadas.csv,agencia/adaptacion,Texto (valores |-delimitados)
 personas_esclavizadas.csv,etnonimos,Texto (valores |-delimitados)
 personas_esclavizadas.csv,procedencia_lugar_id,Numérico entero
 personas_esclavizadas.csv,procedencia_adicional,Texto
@@ -19,7 +19,7 @@ personas_esclavizadas.csv,conducta,Texto
 personas_esclavizadas.csv,salud,Texto
 personas_esclavizadas.csv,ocupaciones,Texto (valores |-delimitados)
 personas_esclavizadas.csv,ocupacion_categoria,Texto
-personas_esclavizadas.csv,estado_civil,Texto (valores |-delimitados)
+personas_esclavizadas.csv,estado_matrimonial,Texto (valores |-delimitados)
 personas_esclavizadas.csv,lugar_nacimiento_id,Numérico entero
 personas_esclavizadas.csv,fecha_nacimiento,Fecha (ISO 8601)
 personas_esclavizadas.csv,fecha_nacimiento_raw,Texto
@@ -39,7 +39,7 @@ personas_no_esclavizadas.csv,honorifico,Texto
 personas_no_esclavizadas.csv,calidades,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,ocupaciones,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,ocupacion_categoria,Texto
-personas_no_esclavizadas.csv,estado_civil,Texto (valores |-delimitados)
+personas_no_esclavizadas.csv,estado_matrimonial,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,entidad_asociada,Texto
 personas_no_esclavizadas.csv,entidades_asociadas,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,lugar_nacimiento_id,Numérico entero
@@ -131,17 +131,17 @@ roles_evento_instituciones.csv,rol_evento,Texto
 cv_calidades.csv,calidad_id,Numérico entero
 cv_calidades.csv,calidad,Texto
 cv_calidades.csv,descripcion,Texto
-cv_etnonimos.csv,etonimo_id,Numérico entero
-cv_etnonimos.csv,etonimo,Texto
+cv_etnonimos.csv,etnonimo_id,Numérico entero
+cv_etnonimos.csv,etnonimo,Texto
 cv_etnonimos.csv,descripcion,Texto
-cv_hispanizaciones.csv,hispanizacion_id,Numérico entero
-cv_hispanizaciones.csv,hispanizacion,Texto
-cv_hispanizaciones.csv,descripcion,Texto
-cv_actividades.csv,actividad_id,Numérico entero
-cv_actividades.csv,actividad,Texto
-cv_actividades.csv,descripcion,Texto
-cv_estados_civiles.csv,estado_civil,Texto
-cv_estados_civiles.csv,descripcion,Texto
+cv_agencia_adaptacion.csv,agencia_id,Numérico entero
+cv_agencia_adaptacion.csv,agencia/adaptacion,Texto
+cv_agencia_adaptacion.csv,descripcion,Texto
+cv_ocupaciones.csv,ocupacion_id,Numérico entero
+cv_ocupaciones.csv,ocupacion,Texto
+cv_ocupaciones.csv,descripcion,Texto
+cv_estado_matrimonial.csv,estado_matrimonial,Texto
+cv_estado_matrimonial.csv,descripcion,Texto
 cv_tipos_documentales.csv,tipo_documental,Texto
 cv_tipos_documentales.csv,descripcion,Texto
 cv_tipos_lugar.csv,tipo,Texto

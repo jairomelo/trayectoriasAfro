@@ -43,16 +43,16 @@ Cada fila representa a una persona esclavizada registrada en la base de datos. U
 | `cabello` | Texto | Descripción del cabello de la persona tal como figura en el documento. |
 | `ojos` | Texto | Descripción de los ojos de la persona tal como figura en el documento. |
 | `calidades` | Texto (valores `\|`-delimitados) | Adscripción o adscripciones de calidad socioétnica de la persona. Ver `cv_calidades.csv`. |
-| `hispanizacion` | Texto (valores `\|`-delimitados) | Nivel o niveles de hispanización registrados. Ver `cv_hispanizaciones.csv`. |
+| `agencia/adaptacion` | Texto (valores `\|`-delimitados) | Nivel o niveles de hispanización registrados. Ver `cv_agencia_adaptacion.csv`. |
 | `etnonimos` | Texto (valores `\|`-delimitados) | Etnónimo o etnónimos asociados a la persona. Ver `cv_etnonimos.csv`. |
 | `procedencia_lugar_id` | Numérico entero | Identificador del lugar de procedencia africana o de otro origen previo. Referencia a `lugar_id` en `lugares.csv`. |
 | `procedencia_adicional` | Texto | Información adicional de procedencia no capturada por el lugar (p. ej., nombre de barco o establecimiento). |
 | `marcas_corporales` | Texto | Descripción de marcas corporales, carimbos, cicatrices rituales u otras señas físicas. |
 | `conducta` | Texto | |
 | `salud` | Texto | |
-| `ocupaciones` | Texto (valores `\|`-delimitados) | Ocupación u ocupaciones de la persona. Ver `cv_actividades.csv`. |
+| `ocupaciones` | Texto (valores `\|`-delimitados) | Ocupación u ocupaciones de la persona. Ver `cv_ocupaciones.csv`. |
 | `ocupacion_categoria` | Texto | Categoría de la ocupación (p. ej., servicio doméstico, artesanía, obraje). |
-| `estado_civil` | Texto (valores `\|`-delimitados) | Estado civil de la persona. Ver `cv_estados_civiles.csv`. |
+| `estado_matrimonial` | Texto (valores `\|`-delimitados) | Estado matrimonial de la persona. Ver `cv_estado_matrimonial.csv`. |
 | `lugar_nacimiento_id` | Numérico entero | Identificador del lugar de nacimiento. Referencia a `lugar_id` en `lugares.csv`. |
 | `fecha_nacimiento` | Fecha (ISO 8601) | Fecha de nacimiento parseada. Ver [Convenciones de fechas](#convenciones-de-fechas). |
 | `fecha_nacimiento_raw` | Texto | Texto literal de la fecha de nacimiento en el documento. |
@@ -79,9 +79,9 @@ Cada fila representa a una persona no esclavizada asociada a uno o más eventos 
 | `sexo` | Texto | Sexo registrado. Valores: `v` (Varón), `m` (Mujer), `i` (Desconocido). |
 | `honorifico` | Texto | Honorífico asociado a la persona. Valores: `nan` (N/A), `don` (Don), `dna` (Doña), `doc` (Doctor), `fra` (Fray). |
 | `calidades` | Texto (valores `\|`-delimitados) | Adscripción o adscripciones de calidad socioétnica. Ver `cv_calidades.csv`. |
-| `ocupaciones` | Texto (valores `\|`-delimitados) | Ocupación u ocupaciones. Ver `cv_actividades.csv`. |
+| `ocupaciones` | Texto (valores `\|`-delimitados) | Ocupación u ocupaciones. Ver `cv_ocupaciones.csv`. |
 | `ocupacion_categoria` | Texto | Categoría de la ocupación. |
-| `estado_civil` | Texto (valores `\|`-delimitados) | Estado civil. Ver `cv_estados_civiles.csv`. |
+| `estado_matrimonial` | Texto (valores `\|`-delimitados) | Estado matrimonial. Ver `cv_estado_matrimonial.csv`. |
 | `entidad_asociada` | Texto | |
 | `entidades_asociadas` | Texto (valores `\|`-delimitados) | Corporaciones o instituciones con las que la persona está asociada. Referencia a `corporacion_idno` en `corporaciones.csv`. |
 | `lugar_nacimiento_id` | Numérico entero | Referencia a `lugar_id` en `lugares.csv`. |
@@ -256,35 +256,35 @@ Adscripciones a regiones, puertos o etnias africanas, o etnónimos usados en la 
 
 | Propiedad | Tipo esperado | Descripción |
 |---|---|---|
-| `etonimo_id` | Numérico entero | Identificador único. |
-| `etonimo` | Texto | Etnónimo tal como aparece normalizado. |
+| `etnonimo_id` | Numérico entero | Identificador único. |
+| `etnonimo` | Texto | Etnónimo tal como aparece normalizado. |
 | `descripcion` | Texto | |
 
-### Hispanizaciones — `cv_hispanizaciones.csv`
+### Agencia / Adaptación — `cv_agencia_adaptacion.csv`
 
 Categorías de nivel de hispanización o aculturación de personas esclavizadas tal como aparecen en los documentos.
 
 | Propiedad | Tipo esperado | Descripción |
 |---|---|---|
-| `hispanizacion_id` | Numérico entero | Identificador único. |
-| `hispanizacion` | Texto | Término (p. ej., Bozal, Ladino, Criollo). |
+| `agencia_id` | Numérico entero | Identificador único. |
+| `agencia/adaptacion` | Texto | Término (p. ej., Bozal, Ladino, Criollo). |
 | `descripcion` | Texto | |
 
-### Actividades — `cv_actividades.csv`
+### Ocupaciones — `cv_ocupaciones.csv`
 
-Vocabulario de ocupaciones y actividades.
+Vocabulario de ocupaciones.
 
 | Propiedad | Tipo esperado | Descripción |
 |---|---|---|
-| `actividad_id` | Numérico entero | Identificador único. |
-| `actividad` | Texto | Nombre de la actividad u ocupación. |
+| `ocupacion_id` | Numérico entero | Identificador único. |
+| `ocupacion` | Texto | Nombre de la ocupación. |
 | `descripcion` | Texto | |
 
-### Estados Civiles — `cv_estados_civiles.csv`
+### Estado Matrimonial — `cv_estado_matrimonial.csv`
 
 | Propiedad | Tipo esperado | Descripción |
 |---|---|---|
-| `estado_civil` | Texto | Estado civil (llave única). |
+| `estado_matrimonial` | Texto | Estado matrimonial (llave única). |
 | `descripcion` | Texto | |
 
 ### Tipos Documentales — `cv_tipos_documentales.csv`
