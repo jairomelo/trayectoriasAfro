@@ -20,6 +20,7 @@ services:
       # Mount source code for hot-reload
       - ./mstdb_manager:/app
       - ./mstdb_theme/build:/app/staticfiles/frontend
+      - ./deposit:/app/deposit
     ports:
       - "8000:8000"
     stdin_open: true
