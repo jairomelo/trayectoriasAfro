@@ -28,7 +28,6 @@ services:
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-trayectorias_user}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-trayectorias}
     volumes:
-      - ./mstdb_manager:/app
       - media_volume:/app/media
     depends_on:
       postgres:
