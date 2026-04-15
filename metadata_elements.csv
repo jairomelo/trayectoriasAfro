@@ -41,7 +41,6 @@ personas_no_esclavizadas.csv,ocupaciones,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,ocupacion_categoria,Texto
 personas_no_esclavizadas.csv,estado_matrimonial,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,entidad_asociada,Texto
-personas_no_esclavizadas.csv,entidades_asociadas,Texto (valores |-delimitados)
 personas_no_esclavizadas.csv,lugar_nacimiento_id,Numérico entero
 personas_no_esclavizadas.csv,fecha_nacimiento,Fecha (ISO 8601)
 personas_no_esclavizadas.csv,fecha_nacimiento_raw,Texto
