@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - 1.1.0
+## [Unreleased]
+
+---
+
+## [1.1.0] - 2026-04-17
 
 ### Backend (`mstdb_manager`)
 
@@ -69,6 +73,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Views
 - Added *Mapa de trayectorias* view to `PersonaEsclavizada` search results, visualizing geographic trajectories for the current result set
+- **Map view now respects active search query and all filters** — trajectories are scoped to the current filtered result set (full-text `q`, form filters, sidebar facets)
+
+#### Cross-tabulation (Tabla cruzada)
+- New pivot-table view available for `PersonaEsclavizada` and `PersonaNoEsclavizada` tabs
+- Configurable row dimension, column dimension, time interval, and cell operation via a control panel
+- Available dimensions: Periodo de tiempo, Sexo, Etnónimo (PE), Calidad, Agencia/Adaptación (PE), Procedencia (PE), Lugar (trayectoria), Estado matrimonial, Honorífico (PNE), Tipo documental, Ocupación (PNE)
+- Cell operations: Recuento de personas, Edad promedio (PE only, years only via `unidad_temporal_edad`), % del total
+- Time-period dimension supports 25, 50, and 100-year intervals
+- **Scoped to active search**: crosstab aggregates over the same filtered subset as the list/table/map views (query + all form filters)
+- Sortable columns: click any column header to sort ascending/descending; sort indicator icons and `aria-sort` attributes
+- CSV export via `export_format=csv` parameter (blob download, no cross-origin issues)
+- M2M dimensions (Etnónimo, Calidad, etc.) display a warning banner noting that totals may exceed unique person counts
+- Accessible: `<caption>`, `scope` attributes on all header cells, `<tfoot>` totals row
+- Backend: `mstdb_manager/api/v2/crosstab.py` — `CrosstabView` and `CrosstabSchemaView` at `/api/v2/crosstab/` and `/api/v2/crosstab/schema/`
+- Frontend: `mstdb_theme/src/conf/crosstab.js` dimension registry, `CrosstabView.svelte` component, store additions (`crosstabConfig`, `fetchCrosstab`, `setCrosstabConfig`)
 
 #### Accessibility
 
