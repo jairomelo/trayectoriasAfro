@@ -199,7 +199,7 @@ Each row represents a direct link between two persons (P1 ↔ P2). The table is 
 | `persona_idno_2` | Text | Identifier of the second person in the pair. |
 | `persona_relacion_id` | Integer | Identifier of the original relationship record. Used to group pairs originating from the same relational event. |
 | `documento_idno` | Text | Document attesting the relationship. Reference to `documentos.csv`. |
-| `naturaleza_relacion` | Text | Relationship type. Values: `fam` (Family), `aso` (Associative), `tmp` (Temporal). |
+| `naturaleza_relacion` | Text | Relationship type. Values: `fam` (Family), `aso` (Associative), `tmp` (Temporal), `sub` (Subordination, Hierarchy) |
 | `descripcion_relacion` | Text | Free-text description of the relationship as stated in the document. |
 | `fecha_inicial_relacion` | Date (ISO 8601) | See [Date conventions](#date-conventions). |
 | `fecha_inicial_relacion_raw` | Text | Literal start-date text in the document. |

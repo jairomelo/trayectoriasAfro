@@ -199,7 +199,7 @@ Cada fila representa un vínculo directo entre dos personas (P1 ↔ P2). La tabl
 | `persona_idno_2` | Texto | Identificador de la segunda persona del par. |
 | `persona_relacion_id` | Numérico entero | Identificador del registro de relación original. Permite agrupar pares que provienen del mismo evento relacional. |
 | `documento_idno` | Texto | Documento en el que consta la relación. Referencia a `documentos.csv`. |
-| `naturaleza_relacion` | Texto | Tipo de relación. Valores: `fam` (Familiar), `aso` (Asociativa), `tmp` (Temporal). |
+| `naturaleza_relacion` | Texto | Tipo de relación. Valores: `fam` (Familiar), `aso` (Asociativa), `tmp` (Temporal), `sub` (Subordinación - Jerárquica). |
 | `descripcion_relacion` | Texto | Descripción libre de la relación tal como consta en el documento. |
 | `fecha_inicial_relacion` | Fecha (ISO 8601\) | Ver [Convenciones de fechas](#convenciones-de-fechas). |
 | `fecha_inicial_relacion_raw` | Texto | Texto literal de la fecha inicial en el documento. |
