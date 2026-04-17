@@ -11,6 +11,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Backend (`mstdb_manager`)
 
+#### Relations — Subordinación (ISAAR CPF 5.3.2)
+- Added `'sub'` (Subordinación) to `PersonaRelaciones.RELACIONES` choices, completing the ISAAR CPF 5.3.2 vocabulary (`fam`, `aso`, `tmp`, `sub`)
+- Added `persona_sujeto` FK on `PersonaRelaciones` to capture directionality (who controls whom); nullable, enforced by form validation only for `sub` type
+- Migration `0007_add_subordinacion_relacion` applied; historical records table updated automatically via `django-simple-history`
+- `PersonaRelacionesForm`: added `persona_sujeto` Select2 autocomplete field; `clean()` raises a validation error when `naturaleza_relacion='sub'` and `persona_sujeto` is empty
+- Create/edit form shows `persona_sujeto` field conditionally (hidden unless relation type is "Subordinación"), via inline JS
+- Document detail view: persona cards display "subordinado/a de [nombre]" for `sub` relations
+- Enslaved and non-enslaved persona detail pages: same directional label for related persons
+- API v2: `PersonaRelacionesNestedSerializer` and `PersonaRelacionesDetailSerializer` expose `persona_sujeto` as a nested `PersonaReferenceSerializer`
+- Deposit export (`export_deposit.py`): added `persona_sujeto_idno` column to `relaciones_personas.csv`
+- New `dbgestor/utils.py` with `derive_subordination_rels(documento_id)` and `revert_subordination_rels(documento_id)` helpers
+  - Derives `sub` relations for all `PersonaNoEsclavizada × PersonaEsclavizada` pairs linked to a document via `Persona.documentos` M2M; idempotent
+  - Reverts only auto-derived relations (those with `descripcion_relacion IS NULL`); manually created relations are unaffected
+- New management command `derive_subordination_rels`: processes all documents or a single `--documento_id`; reports per-document and total counts
+- New `DeriveRelacionesView` and `RevertRelacionesView` (POST-only, permission-checked JSON endpoints) at `documento/<pk>/derive-relations/` and `documento/<pk>/revert-relations/`
+- Document detail page: "Derivar relaciones" and "Revertir" buttons (gated by `add_personarelaciones` / `delete_personarelaciones`); page auto-reloads when changes are made; ℹ️ button opens an explanatory modal
+
 #### Search & Filtering
 - Added `estado_civil` filter (labeled "Estado matrimonial") for both `PersonaEsclavizada` and `PersonaNoEsclavizada`
 - Added `tipo_documental` faceted filter for both persona types
