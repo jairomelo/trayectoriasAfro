@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Backend (`mstdb_manager`)
+
+#### Search API
+
+- Added `GET /api/v2/search/network/` endpoint to build Cytoscape-ready networks from the current Search context.
+- Network endpoint reuses Search filtering semantics (query, exact search mode, sidebar facets, and form-based filters) to keep parity with table/card/crosstab views.
+- Added scope controls for network generation:
+  - `scope_mode=strict`: only personas in the filtered Search result set.
+  - `scope_mode=expanded`: strict set plus first-degree neighbors.
+- Added network response metadata for client UX (`scope_mode`, `node_count`, `edge_count`, `result_count`, `truncated`).
+- Added server-side graph size safeguards (node/edge caps) with truncation signaling.
+
 ### Frontend (`mstdb_theme`)
 
 #### Network Visualization
@@ -18,6 +30,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Diamond → Mujer (m)
   - Rounded rectangle → Varón (v)
   - Ellipse (default) → Desconocido (i)
+
+#### Search
+
+- Added a new **Red** view mode in Search for both `PersonaEsclavizada` and `PersonaNoEsclavizada` tabs.
+- Search network view is now driven by backend-filtered graph data (no static dashboard network dependency).
+- Added strict/expanded scope toggle in Search network controls.
+- Added relation toggles (`fam`, `aso`, `tmp`, `sub`) and centrality threshold filtering in Search network.
+- Added truncation warning and graph counters in Search network (`nodos`, `aristas`, `resultados base`).
+- Added tooltip action button to open the corresponding individual detail page directly from a node.
+- Added orphan-node visibility toggle in Search network controls.
+- Fixed relation-toggle regression where re-enabling a relation filter did not restore the original graph shape.
 
 ---
 
