@@ -11,6 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.1] - 2026-04-19
+
+### Backend (`mstdb_manager`)
+
+#### Network API
+- Fixed edge directionality for `sub` relations: `persona_sujeto` is now always the edge source, ensuring the arrow points from enslaver to enslaved
+- Added `select_related('persona_sujeto')` to the network queryset for both PE and PNE viewsets to avoid N+1 queries
+
+### Frontend (`mstdb_theme`)
+
+#### Network Visualization
+- Ego node ("Persona actual") now uses a distinct steel blue (`#3B6D8C`) color on both PE and PNE pages, instead of blending with the type color
+- Moved the ego selector after the type selector in the Cytoscape stylesheet so it always takes priority regardless of persona type
+
+#### Export
+- Added PNG export button to the network card header (uses Cytoscape's native `cy.png()` at 2× scale)
+- Added PNG export button to the map card header (uses `html2canvas` at 2× scale)
+- Files download as `red_{nombre}.png` / `mapa_{nombre}.png`
+- New dependency: `html2canvas ^1.4.1`
+
+---
+
 ## [1.1.0] - 2026-04-17
 
 ### Backend (`mstdb_manager`)
