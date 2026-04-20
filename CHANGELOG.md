@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Frontend (`mstdb_theme`)
+
+#### Network Visualization
+
+- Relationship filter: Added a toolbar row above the network graph with four toggle buttons: Parentesco (fam), Asociación (aso), Temporal (tmp), Subordinación (sub). Each button uses the corresponding edge color.
+- Sex/gender distinction — A Sexo toggle button in the same toolbar. When activated, node shapes change:
+  - Diamond → Mujer (m)
+  - Rounded rectangle → Varón (v)
+  - Ellipse (default) → Desconocido (i)
+
 ---
 
 ## [1.1.1] - 2026-04-19
