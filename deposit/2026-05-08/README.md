@@ -118,3 +118,26 @@ Data in this deposit was extracted from notarial records held in the following M
 12. Archivo Histórico del Estado de Zacatecas (AHEZ)
 
 ---
+
+## Reproducibility
+
+The deposit was generated from the live *Trayectorias Afro* database using an automated export script. The complete source code for the web application and database backend is publicly available at:
+
+- **Project repository:** <https://github.com/TrayectoriasAfro/trayectoriasAfro/>
+- **Export script:** [`dbgestor/management/commands/export_deposit.py`](https://github.com/jairomelo/mstdb_manager/blob/bf2bdc83982151fa5584d4eaa1dbffd7f079a9d2/dbgestor/management/commands/export_deposit.py)
+
+The export script queries the Django ORM, serializes all tables to the CSV layout documented in `metadata_elements.csv`, and writes the `MANIFEST.txt` file with row counts. The pinned commit (`bf2bdc8`) corresponds to the version of the script used to produce this deposit.
+
+---
+
+## Citation
+
+Please cite this dataset as:
+
+> Alcántara, Álvaro, Alex Borucki, Maira Cristina Córdova, Jorge E. Delgadillo Núñez, Gabriela Iturralde, Luis Benedicto Juárez Luévano, María Irma López, Jairo Melo, Julieta Pineda, Pablo Miguel Sierra Silva, Tatiana Seijas, and Sabrina Smith. *Trayectorias Afro: La circulación de afrodescendientes esclavizados y libres en la Nueva España* [Dataset]. Harvard Dataverse, 2026. [https://doi.org/10.7910/DVN/ECR5CB](https://doi.org/10.7910/DVN/ECR5CB)
+
+---
+
+## Contact
+
+Project website: <https://www.trayectoriasafro.org>
