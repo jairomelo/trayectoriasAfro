@@ -9,6 +9,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Repository
+
+#### Deposit & Data Packaging
+
+- Added versioned deposit snapshot at `deposit/2026-05-08/` with data tables, controlled vocabularies, manifest, and bilingual metadata dictionaries.
+- Added deposit reproducibility assets, including network analysis notebook/HTML output and combined report artifacts.
+- Added top-level deposit documentation and metadata dictionary for dataset publication workflows.
+
+#### Infrastructure & Configuration
+
+- Added optional deposit environment variables in `.env.example` (`DATAVERSE_API`, `DATAVERSE_API_EXPIRATION_DATE`).
+- Fixed production backup volume mount path in `docker-compose.prod.yml` (`./backups:/app/backups`).
+- Updated `.gitignore` rules for backup/deposit workflows and versioned deposit snapshots.
+
+### Backend (`mstdb_manager`)
+
+#### Deposit & Export
+
+- Added cutoff-date option support in deposit export commands.
+- Added metadata-elements handling for deposit export, including field-map updates (e.g., `titulo`).
+
+#### API & Data Model
+
+- Added `descripcion` field to relation payloads returned by persona detail APIs.
+- Added latitude/longitude to `LugarReferenceSerializer` for richer location consumers.
+- Extended `Lugar`/`HistoricalLugar` place type options with `hacienda`.
+- Enhanced ordering in `LugarViewSet` and filter fields in `PersonaLugarRelViewSet`.
+
+#### Operations
+
+- Added `django-dbackup` dependency and related backup flow updates.
+
+### Frontend (`mstdb_theme`)
+
+#### Trajectory Editing
+
+- Added trajectory editor with CRUD flows and improved add-point UX.
+- Added document/persona-aware point creation, including support for foreign-key trajectory points.
+
+#### Network & UI
+
+- Added edge tooltips in relations network visualizations.
+- Added auth-aware user dashboard footer links based on edit permissions.
+- Updated contributor bios and refreshed selected content/visibility settings in app views.
+
+---
+
+## [1.2.0-rc.1] - 2026-04-20
+
 ### Backend (`mstdb_manager`)
 
 #### Search API
