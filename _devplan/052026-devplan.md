@@ -35,9 +35,19 @@ A summary of the basic dashboard features and roles:
 
 - Prototype in progress here: `mstdb_theme/src/routes/(app)/User/catalogar/+layout.svelte`
 
-**Persona Esclavizada Form**:
+**Forms to replicate**:
 
-Elements [TBD]
+| form | django form in dbgestor app |
+| --- | --- |
+| PersonaEsclavizada | forms.PersonaEsclavizadaForm |
+| PersonaNoEsclavizada | forms.PersonaNoEsclavizadaForm |
+| Documento | forms.DocumentoForm |
+| Lugar | forms.LugarForm |
+| Corporacion | forms.CorporacionForm |
+
+**Relational forms**:
+
+Current forms in Django templating requires to implement intermediate relational forms to interconnect Personas<>Personas, Personas<>Lugares, etc. If possible to replece those with [relationships edit panel](#relationships-edit-panel)
 
 #### Relationships edit panel
 
