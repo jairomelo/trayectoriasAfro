@@ -74,7 +74,7 @@ Implement a merging element feature that allows collectors to clean-up duplicate
 - Pre-filter possible duplicates (fuzzy match + relevant elements —-e.g., shared paths in the trajectory, shared enslavers, shared people).
 - Including a public user button to 'suggest merging' that allow non-collectors users to send suggestions.
 - Those suggestions should be seen in the main screen of possible duplicates.
-- Use case: merge all instances of Melchora de los Reyes (ids 6, 1762, 7825, 7887, 2711, and 1027)
+- Use case: merge all instances of Melchora de los Reyes (ids 7887, 1027, and 1762)
 
 ## Enhancements
 
