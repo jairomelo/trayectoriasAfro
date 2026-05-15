@@ -24,6 +24,11 @@ A summary of the basic dashboard features and roles:
 | Edit personal information | X | X | X | X |
 | Create personal collections with data available | X | X | X | X |
 
+**About personal information**:
+
+- This includes the basic information such as email, username and name (Django basic profile).
+- Also, refactor `mstdb_theme/src/conf/contributors.js` into a model table. In `mstdb_manager/cataloguers` we have some basic customizations already.
+
 #### Capture forms
 
 **Main Event Form**:
