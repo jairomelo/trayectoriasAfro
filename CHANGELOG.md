@@ -20,22 +20,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Infrastructure & Configuration
 
 - Added optional deposit environment variables in `.env.example` (`DATAVERSE_API`, `DATAVERSE_API_EXPIRATION_DATE`).
+- Added Cloudflare Turnstile environment variables in `.env.example` (`TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`).
 - Fixed production backup volume mount path in `docker-compose.prod.yml` (`./backups:/app/backups`).
 - Updated `.gitignore` rules for backup/deposit workflows and versioned deposit snapshots.
 
 ### Backend (`mstdb_manager`)
 
-#### Deposit & Export
+#### User Accounts & Authentication
 
-- Added cutoff-date option support in deposit export commands.
-- Added metadata-elements handling for deposit export, including field-map updates (e.g., `titulo`).
+- Added `POST /api/v2/register/` — open registration endpoint. Validates username uniqueness, email uniqueness, and password via Django's configured `AUTH_PASSWORD_VALIDATORS`. Creates an active user with no group membership; staff assigns roles separately.
+- Added `POST /api/v2/whoami/change-password/` — authenticated password change. Verifies current password, calls `set_password`, and preserves the active session via `update_session_auth_hash`.
+- Extended `PATCH /api/v2/whoami/` to accept and update User model fields (`username`, `first_name`, `last_name`, `email`) in addition to existing profile fields.
+- Added `is_superuser` field to `GET /api/v2/whoami/` response.
+- Added `GET /api/v2/config/` — unauthenticated endpoint returning public runtime configuration (`turnstile_site_key`).
+
+#### Security
+
+- Added `LoginRateThrottle` (10 req/min) and `RegisterRateThrottle` (5 req/min) custom throttle classes applied to login and registration endpoints respectively.
+- Added global DRF throttle defaults: `anon` 60 req/min, `user` 300 req/min.
+- Added Cloudflare Turnstile server-side verification (`_verify_turnstile`) to the registration endpoint using stdlib `urllib` (no new dependency). Dev bypass when `TURNSTILE_SECRET_KEY` is not set.
+- Added `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` settings read from environment variables.
+- Refactored `api_login` from a plain function to a DRF `@api_view`, enabling safe `request.data` parsing, throttle support, and a stripped response (removed email leakage).
+
+#### Merging & Deduplication
+
+- Added `SugerenciaMerge` model (migration `0012`) for tracking user-submitted merge suggestions with status (`pending`/`accepted`/`rejected`) and audit fields.
+- Added `GET /api/v2/merge/candidates/` — fuzzy-search merge candidates via `rapidfuzz` `token_set_ratio` (≥ 50 score, top 30 results).
+- Added `POST /api/v2/merge/execute/` — staff-only atomic entity merge. Re-points all foreign key and M2M relations from the duplicate to the canonical record across the full relational graph, then deletes the duplicate.
+- Added `POST /api/v2/merge/suggest/` — any authenticated user can flag a potential duplicate; creates a `SugerenciaMerge` record for staff review.
+- Added `rapidfuzz` to `requirements.txt`.
+- Added `SugerenciaMerge` to Django admin.
 
 #### API & Data Model
 
+- Extended `PersonaRelacionesViewSet` filter fields with `personas__persona_id` lookup required by the relaciones editor.
 - Added `descripcion` field to relation payloads returned by persona detail APIs.
 - Added latitude/longitude to `LugarReferenceSerializer` for richer location consumers.
 - Extended `Lugar`/`HistoricalLugar` place type options with `hacienda`.
 - Enhanced ordering in `LugarViewSet` and filter fields in `PersonaLugarRelViewSet`.
+
+#### Deposit & Export
+
+- Added cutoff-date option support in deposit export commands.
+- Added metadata-elements handling for deposit export, including field-map updates (e.g., `titulo`).
 
 #### Operations
 
@@ -43,10 +70,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Frontend (`mstdb_theme`)
 
+#### User Accounts & Profile
+
+- Added `/User/profile/+page.svelte` — full account page with: read/inline-edit toggle for account fields (username, first/last name, email); collapsible password change form with current-password verification; read/inline-edit toggle for profile fields (institution, URL, semblanza); group and staff/superuser badge display.
+- Replaced `/User/profile/edit/` standalone form with a redirect to `/User/profile`; profile editing is now inline.
+- Added registration form to `/User/login/` as a toggle alongside the existing login form, consistent with Django admin UX.
+- Cloudflare Turnstile widget rendered in the registration form when `TURNSTILE_SITE_KEY` is configured; gracefully absent in dev when key is unset.
+- Added `changePassword`, `register`, and `fetchPublicConfig` helpers to `api.js`.
+
+#### Relational Editing & Merging
+
+- Added `/User/catalogar/relaciones/+page.svelte` — PersonaRelaciones (P×P) CRUD panel. Persona search → table of relations → SlideOver add/edit → ConfirmDelete, supporting `?persona_id=` preload from the PE form success flow.
+- Added `/User/catalogar/merge/+page.svelte` — staff-only merge execution UI. Entity-type selector → debounced fuzzy search → candidate table with similarity bars → canonical/duplicate selection → confirmation step → `merge/execute/` POST.
+- Added `SuggestMerge.svelte` component — modal button allowing any authenticated user to suggest a canonical/duplicate pair for staff review without destructive action.
+- Wired `SuggestMerge` into detail pages for PersonaEsclavizada, PersonaNoEsclavizada, Lugar, Documento, and Corporacion.
+- Added `relacionesByPersona`, `createPersonaRelacion`, `updatePersonaRelacion`, `deletePersonaRelacion`, `mergeCandidates`, `mergeExecute`, `mergeSuggest`, `updateLugarById`, `updatePersonaEscById` helpers to `api.js`.
+
 #### Trajectory Editing
 
 - Added trajectory editor with CRUD flows and improved add-point UX.
 - Added document/persona-aware point creation, including support for foreign-key trajectory points.
+- Added `Tooltip.svelte` component wrapping Bootstrap tooltip action for inline contextual hints.
+- Wired `Tooltip` into the trayectoria Puntos panel header and the Red de Relaciones panel header.
+
+#### Capture Forms
+
+- PersonaEsclavizada success alert now includes quick-action links to the trayectoria editor and the relaciones editor pre-filtered by the newly created persona.
+- Lugar detail page: "Editar lugar" button visible to collectors linking to the lugar edit route.
 
 #### Network & UI
 
