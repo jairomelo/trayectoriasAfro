@@ -1,5 +1,6 @@
 # Development override for docker-compose.yml
-# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# Live reload: docker compose -f docker-compose.yml -f docker-compose.dev.yml watch
 
 services:
   postgres:
@@ -10,14 +11,14 @@ services:
     build:
       context: .
       dockerfile: ./mstdb_manager/Dockerfile
-      target: development  # Use development stage
+      target: development
     command: python manage.py runserver 0.0.0.0:8000
     environment:
       - DEBUG=True
       - DJANGO_SETTINGS_MODULE=mdb.settings
       - PYTHONUNBUFFERED=1
     volumes:
-      # Mount source code for hot-reload
+      # Bind-mount for instant file sync — Django runserver handles reloads
       - ./mstdb_manager:/app
       - ./mstdb_theme/build:/app/staticfiles/frontend
       - ./deposit:/app/deposit
@@ -25,7 +26,23 @@ services:
       - "8000:8000"
     stdin_open: true
     tty: true
+    develop:
+      watch:
+        # Rebuild image when dependencies change
+        - action: rebuild
+          path: ./mstdb_manager/requirements.txt
 
   frontend:
     ports:
       - "3000:80"
+    develop:
+      watch:
+        # Any source, config, or dependency change requires a fresh npm build
+        - action: rebuild
+          path: ./mstdb_theme/src
+        - action: rebuild
+          path: ./mstdb_theme/package.json
+        - action: rebuild
+          path: ./mstdb_theme/svelte.config.js
+        - action: rebuild
+          path: ./mstdb_theme/vite.config.js
