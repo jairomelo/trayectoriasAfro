@@ -13,3 +13,4 @@ deposit/*.png
 deposit/*.csv
 deposit/.ipynb_checkpoints
 !deposit/2026-05-08/*
+scripts/restore_latest_backup.sh
