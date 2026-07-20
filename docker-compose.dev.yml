@@ -30,7 +30,9 @@ services:
       watch:
         # Rebuild image when dependencies change
         - action: rebuild
-          path: ./mstdb_manager/requirements.txt
+          path: ./mstdb_manager/pyproject.toml
+        - action: rebuild
+          path: ./mstdb_manager/uv.lock
 
   frontend:
     ports:
