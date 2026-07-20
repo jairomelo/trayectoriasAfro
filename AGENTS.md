@@ -8,8 +8,7 @@
   * **Frontend (`/mstdb_theme`):** SvelteKit.
 * **Submodule Isolation:** Do not place backend logic in `mstdb_theme` or UI/component logic in `mstdb_manager`. Shared configuration values belong only in root-level `.env` files. If a utility or type is genuinely shared between submodules, place it in a root-level `/shared` directory and document the exception explicitly. Infrastructure coupling (e.g., the Dockerfile building the SvelteKit output into Django's staticfiles) is intentional and expected.
 * **Legacy Awareness:** Before proposing refactors, check `git log` or existing patterns to avoid reverting intentional architectural decisions.
-
-Ambiguous: "Do not leak environment-specific **application** code across submodule boundaries.". The term 'environment-specific application code' is ambiguous. It could mean code that varies by deployment environment (dev/prod), or it could mean code that is specific to one submodule's application domain. A model could allow cross-boundary leakage of domain logic as long as it isn't environment-specific, or could over-restrict and flag intentional shared utilities. Suggestion: Replace with: 'Do not place backend business logic in `mstdb_theme` or UI/component logic in `mstdb_manager`. Shared configuration values belong only in root-level `.env` files.'
+* **Architecture notes**: Relevant architectural notes are tracked in [docs/architecture.md](docs/architecture.md). Keep it up to date as the architecture evolves.
 
 ## 2. Documentation & Comments
 
