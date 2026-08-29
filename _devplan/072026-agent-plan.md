@@ -151,3 +151,12 @@ Small, isolated change: one serializer annotation + one config file update. No s
 - Included: all 4 items from `_devplan/072026-modifications.md`.
 - Excluded: the still-separate May 2026 initiative tracked in `_devplan/agent-plan.md` — do not merge scopes.
 - Excluded: introducing an automated test suite (none exists today) — flagged as a candidate follow-up, not part of this plan.
+
+
+## Progress checklist
+
+| Phase | Status | Evidence |
+| --- | --- | --- |
+| Phase 0 — Python 3.13 migration | ✅ Complete | Dockerfile python:3.13-slim (both stages), pyproject.toml requires-python = ">=3.13", uv migration done (ba4be6c, 48b2536) |
+| Phase 1 — Lecciones Educativas | ✅ Complete | Backend models → API → admin (453c615…77fc4fb) + frontend TipTap, pages, landing card, capture form (90fb243…fd444dc) |
+| Phase 2 | Ongoing (task 15) | [21bbc8f] feat(dashboard): replace personas-por-lugar Plotly viz with interactive D3 view |
