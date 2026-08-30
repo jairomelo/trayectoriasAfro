@@ -9,6 +9,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]
 
+### Backend (`mstdb_manager`)
+
+#### API & Data Model
+
+- Fixed the Corporación detail API (`GET /api/v2/corporaciones/{id}/`): the serializer now exposes `notas`, `created_at`/`updated_at`, `tipo_institucion_id`, and nested `documentos`, `personas_asociadas` and `eventos` (institution event roles with document + archive data), and fixed the broken `tipo_institucion_nombre` source (`tipo_institucion.nombre` did not exist).
+- Fixed `evento_ids` on the Corporación detail API to use the correct relation, so it no longer returns an empty list.
+- Added a robust `persona_type` field (`esclavizada`/`noesclavizada`) to persona reference payloads so detail links no longer depend on environment-specific ContentType ids.
+- Removed the `is_published=True` filter from the per-entity search endpoints (`documentos`, `personas-esclavizadas`, `personas-no-esclavizadas`, `corporaciones`). These entities have no publish workflow and all legacy records were `is_published=False`, making them invisible to search (e.g. "Convento de Santa María de Gracia de Guadalajara" returned no results). Lecciones keep their publish control.
+
+#### Relation Types
+
+- Restored the `Asociativa` (`aso`) person↔person relation type that was removed earlier (migration converted former `aso` rows to `Temporal`). Catalogers can again record associative relations (religious brotherhoods, cofradías, etc.); former rows are not auto-reverted and can be reclassified manually. Network endpoints now emit `aso` edges instead of collapsing them into `Temporal`.
+
+#### Templates (old cataloging site)
+
+- Fixed the documento detail place buckets: ordinal `0` now renders as "Lugar del evento/transacción" instead of being mislabeled as "Anteriores".
+- Updated the persona↔lugar form help text to state the reserved-`0` ordinal convention explicitly.
+
+### Frontend (`mstdb_theme`)
+
+#### Cataloging
+
+- Added a Corporación edit route (`/User/catalogar/corporacion/edit/[id]`) mirroring the Lugar edit flow: nombre, tipo de institución, nombres alternativos, lugar, documentos, personas asociadas and notas, with per-field validation errors.
+- Added an "Editar" button on the Corporación detail page for staff and colectores.
+- Restored the `Asociativa` relation type in the relation editor (form option, edge color, legend) and in the persona detail network filters/legends.
+
+#### Detail Pages
+
+- Fixed the "Invalid Date" on the public Corporación page: timestamps now come from the API and render with `formatDate`, the duplicate footer date block was removed, the banner icon alt text no longer says "Persona Esclavizada", and associated-persona links resolve via `persona_type`.
+- Unified created/updated date rendering with `formatDate` on persona (esclavizada/no esclavizada) and documento detail pages.
+
+#### Cataloging UX & Conventions
+
+- Documented the reserved-ordinal convention in the trajectory editor: ordinal `0` is the event/transaction place (locked, orange); negative ordinals are places before the event, positive after.
+- Added a short note on the Nuevo Lugar page clarifying that georeferencing happens on the website (create/edit lugar with coordinates and «Es parte de» hierarchy), not in the legacy spreadsheet.
+
 ---
 
 ## [1.3.0] - 2026-08-30
