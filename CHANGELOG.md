@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added role-based lesson access control: lesson owners and collaborators can manage granted access, while API responses expose per-user edit, delete, and ownership permissions.
 - Added author and publication metadata to lessons, and published the existing lesson collection.
+- Added PDF attachment uploads (`LeccionAdjunto`) for embedding PDFs in lesson content, mirroring the existing image upload flow.
 
 #### API & Data Model
 
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reworked lesson authoring with reusable creation and edit forms, collaborator access management, and draft creation when images are uploaded before the first save.
 - Added rich-text support for captioned images and embedded YouTube videos, PDFs, and iframes.
+- Added a toolbar button to upload and embed PDF files directly in the lesson editor, reusing the existing embed rendering.
 - Added print-friendly lesson pages and PDF download.
 - Improved keyboard focus and contextual tooltips across the lesson editor and other interactive controls.
 
