@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reworked lesson authoring with reusable creation and edit forms, collaborator access management, and draft creation when images are uploaded before the first save.
 - Added rich-text support for captioned images and embedded YouTube videos, PDFs, and iframes.
 - Added a toolbar button to upload and embed PDF files directly in the lesson editor, reusing the existing embed rendering.
+- Fixed blockquote formatting having no visible style in the lesson editor.
+- Fixed embeds (YouTube, PDF, iframe) disappearing when reopening a saved lesson for editing (invalid ProseMirror parse rule dropped the node).
+- Removed the duplicate image gallery shown below lesson content in the preview and public views.
 - Added print-friendly lesson pages and PDF download.
 - Improved keyboard focus and contextual tooltips across the lesson editor and other interactive controls.
 - Added padding inside the rich-text editor so typed content does not sit against its border.
