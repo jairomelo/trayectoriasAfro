@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Frontend (`mstdb_theme`)
+
+#### Search
+
+- Reorganized PersonaEsclavizada/PersonaNoEsclavizada sidebar filters: the date range is now always visible below the search bar (no longer nested in a collapsible group), and the "Trayectorias" filter group is expanded by default.
+
 ---
 
 ## [1.2.0] - 2026-08-29
