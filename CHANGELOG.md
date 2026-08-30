@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.2.0] - 2026-08-29
+
 ### Repository
 
 #### Deposit & Data Packaging
@@ -21,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added optional deposit environment variables in `.env.example` (`DATAVERSE_API`, `DATAVERSE_API_EXPIRATION_DATE`).
 - Added Cloudflare Turnstile environment variables in `.env.example` (`TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`).
+- Added Carto Basemaps API configuration in `.env.example` (`CARTO_API`).
 - Fixed production backup volume mount path in `docker-compose.prod.yml` (`./backups:/app/backups`).
 - Updated `.gitignore` rules for backup/deposit workflows and versioned deposit snapshots.
 
@@ -48,8 +53,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `GET /api/v2/merge/candidates/` — fuzzy-search merge candidates via `rapidfuzz` `token_set_ratio` (≥ 50 score, top 30 results).
 - Added `POST /api/v2/merge/execute/` — staff-only atomic entity merge. Re-points all foreign key and M2M relations from the duplicate to the canonical record across the full relational graph, then deletes the duplicate.
 - Added `POST /api/v2/merge/suggest/` — any authenticated user can flag a potential duplicate; creates a `SugerenciaMerge` record for staff review.
-- Added `rapidfuzz` to `requirements.txt`.
+- Added `rapidfuzz` to `pyproject.toml`.
 - Added `SugerenciaMerge` to Django admin.
+
+#### Educational Lessons
+
+- Added `Leccion`, `LeccionImagen`, `LeccionNivel`, and `LeccionPalabraClave` models, migrations, and Django admin support.
+- Added `/api/v2/lecciones/` CRUD endpoints with facets, image upload, and controlled vocabularies for lesson levels and keywords.
 
 #### API & Data Model
 
@@ -58,6 +68,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added latitude/longitude to `LugarReferenceSerializer` for richer location consumers.
 - Extended `Lugar`/`HistoricalLugar` place type options with `hacienda`.
 - Enhanced ordering in `LugarViewSet` and filter fields in `PersonaLugarRelViewSet`.
+- Added aggregated event fields to PersonaEsclavizada API responses.
+- Corrected Search year filtering to accept inclusive year ranges.
+- Added `lugar_id` filtering to the places-people distribution endpoint.
+
+#### Visualization API
+
+- Added Redis-backed caching for visualization endpoints.
+- Added a server-side Carto basemap tile proxy that keeps the API key private and caches immutable tiles.
+- Extended travel trajectory responses with optional per-route timeline data, year counts, and date-range metadata.
 
 #### Deposit & Export
 
@@ -66,9 +85,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Operations
 
-- Added `django-dbackup` dependency and related backup flow updates.
+- Migrated dependency management from `requirements.txt` to `pyproject.toml` and `uv.lock`; updated the production image to use Gunicorn.
+- Added backend media serving for user-uploaded files.
 
 ### Frontend (`mstdb_theme`)
+
+#### Search
+
+- Search filters, active tab, and query state now synchronize to the URL, allowing filtered results to be shared, bookmarked, and restored from a deep link.
 
 #### User Accounts & Profile
 
@@ -77,6 +101,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added registration form to `/User/login/` as a toggle alongside the existing login form, consistent with Django admin UX.
 - Cloudflare Turnstile widget rendered in the registration form when `TURNSTILE_SITE_KEY` is configured; gracefully absent in dev when key is unset.
 - Added `changePassword`, `register`, and `fetchPublicConfig` helpers to `api.js`.
+
+#### Educational Lessons
+
+- Added public lesson list and detail pages, including related-entity navigation.
+- Added authenticated lesson capture, edit, delete, rich-text editing, and image upload workflows.
 
 #### Relational Editing & Merging
 
@@ -103,6 +132,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added edge tooltips in relations network visualizations.
 - Added auth-aware user dashboard footer links based on edit permissions.
 - Updated contributor bios and refreshed selected content/visibility settings in app views.
+
+#### Dashboard & Visualization
+
+- Replaced the Personas por Lugar dashboard chart with an interactive D3 visualization and corrected its Search deep links.
+- Connected the Personas network dashboard to the live network API with date and cluster filters; fixed graph visibility and DOM-render timing.
+- Reworked ArcsMap with compact filter controls, application-configured map tiles, adaptive route limits, accessible labels, and improved performance.
+- Added temporal route animation, year-based start/end selectors, route details, and automatic timeline playback to ArcsMap.
 
 ---
 
