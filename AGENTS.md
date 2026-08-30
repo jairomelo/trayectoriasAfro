@@ -15,6 +15,8 @@
 * **Be Ruthlessly Concise:** Prioritize "why" over "what." If the code is readable, do not add a comment.
 * **Target Audience:** Write for an **intermediate developer**. Assume syntax fluency; focus on architectural "intent."
 * **No Redundancy:** If a function or variable is self-explanatory, skip the documentation.
+* **Keep CHANGELOG.md up-to-date:** After relevant changes, fixes or adding new features, update the CHANGELOG.md file [Unreleased] section.
+* **Commit Often:** After finishing an specific task or project implementation phase, create a commit in the respective repo or submodule.
 
 ## 3. Docker & Infrastructure
 
