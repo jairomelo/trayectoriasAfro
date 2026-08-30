@@ -9,7 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Backend (`mstdb_manager`)
+
+#### Educational Lessons
+
+- Added role-based lesson access control: lesson owners and collaborators can manage granted access, while API responses expose per-user edit, delete, and ownership permissions.
+- Added author and publication metadata to lessons, and published the existing lesson collection.
+
+#### API & Data Model
+
+- Fixed Archivo updates to use the `ubicacion_archivo` field.
+
 ### Frontend (`mstdb_theme`)
+
+#### Educational Lessons
+
+- Reworked lesson authoring with reusable creation and edit forms, collaborator access management, and draft creation when images are uploaded before the first save.
+- Added rich-text support for captioned images and embedded YouTube videos, PDFs, and iframes.
+- Added print-friendly lesson pages and PDF download.
+- Improved keyboard focus and contextual tooltips across the lesson editor and other interactive controls.
 
 #### Search
 
