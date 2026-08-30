@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a toolbar button to upload and embed PDF files directly in the lesson editor, reusing the existing embed rendering.
 - Added print-friendly lesson pages and PDF download.
 - Improved keyboard focus and contextual tooltips across the lesson editor and other interactive controls.
+- Added padding inside the rich-text editor so typed content does not sit against its border.
 
 #### Search
 
