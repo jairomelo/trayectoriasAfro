@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Frontend (`mstdb_theme`)
+
+- Upgraded the Svelte 5-compatible Vite, Svelte plugin, and Vitest toolchain; removed the unused Svelte 4-only combobox dependency and pinned SvelteKit's transitive `cookie` package to its patched version.
+- Fixed server rendering on the landing and login pages after the dependency upgrade by restoring valid Paraglide message references.
+
 ---
 
 ## [1.3.1] - 2026-08-30
