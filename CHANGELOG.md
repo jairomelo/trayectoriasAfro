@@ -9,10 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Backend (`mstdb_manager`)
+
+#### API
+
+- Added the `lugar_any` drill-down filter to the search, crosstab and search-network endpoints: persons related to any given place by trajectory (`PersonaLugarRel`) or, for `personaesclavizada`, by `procedencia` origin (OR). This is the filter behind the "Personas por lugar" dashboard drill-down, whose results previously only matched `procedencia` (e.g. Puebla 1635: 124 chart records vs 7 search results). Documented in `api/v2/README.md` together with the chart-vs-search count contract.
+
 ### Frontend (`mstdb_theme`)
 
 - Upgraded the Svelte 5-compatible Vite, Svelte plugin, and Vitest toolchain; removed the unused Svelte 4-only combobox dependency and pinned SvelteKit's transitive `cookie` package to its patched version.
 - Fixed server rendering on the landing and login pages after the dependency upgrade by restoring valid Paraglide message references.
+
+#### Bug 1 — Browser history (SPA navigation)
+
+- Migrated the remaining full-reload navigations to SPA `goto()`: the landing hero search, the navbar search, the "Personas por lugar" drill-down and the Archivos "Explorar" button. Removed `on:click|stopPropagation` from the EntityTable detail icon links, which was swallowing clicks before SvelteKit's router could intercept them (causing full page reloads on every drill-down from the results table).
+- Fixed the root layout's landing/app chrome branch to resolve from the in-flight navigation target: keyed on `$page.url` it flipped after the new page had mounted, destroying and remounting it mid-fetch (lost results and stuck spinners when navigating landing → Search).
+- Set `trailingSlash: 'always'` on the root layout so the app's canonical `/Search/…` URLs no longer trigger SvelteKit client redirects that double-mounted the Search page.
+- Search state (q, tab, view, page, page_size, ordering, filters, archivo_id) is now fully encoded in the URL through a central `buildSearchUrl()` helper, with a push/replace policy: push for discrete actions (new search, clear, tab change, page change), replace for filter keystrokes and sort/view changes.
+- Restoring state on Back/Forward: Search restores tab, query, exact mode, filters, page, page size, ordering and view mode idempotently from the parsed URL (`applyUrlState`), without extra history entries or duplicate fetches; aborted fetches no longer leave a stuck loading spinner.
+- Added an accessible "Volver a resultados" breadcrumb on all five Detail pages that returns to the last Search/Dashboard state (recorded in sessionStorage, referrer-based fallback), instead of relying on blind history navigation.
+
+#### Bug 2 — Drill-down Personas por lugar
+
+- The "Personas por lugar" bubble drill-down now opens `/Search/` with `lugar_any=<id>` and the exact selected year (previously `procedencia` + a wrong `[year, year+1]` window and a full-reload navigation), so result counts match the chart (e.g. Puebla 1635 → 124 records).
+- Added the count-contract note to the chart (chart counts trajectory records; Search also includes procedencia) and an `aria-live` status announcement for drill-down activations.
+- Fixed the broken `?archivo_id=` deep link from Archivos: it is now mapped onto the real `archivo` form filter in `Search/+page.js`, so the sidebar shows the filter and results are actually filtered.
+- Added the missing Paraglide `m` imports on the five Detail pages (`m.loading()` crashed rendering) and new `es`/`en` message keys for the drill-down note, status and breadcrumb.
 
 ---
 

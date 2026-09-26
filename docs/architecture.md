@@ -26,19 +26,21 @@
 - Query params: q (FTS), type, page, page_size, ordering, search (simple filter)
 - Filters: lugar_id, archivo_id, year, etnonimo, calidad, hispanizacion, ocupacion (CSV)
 - Form filters: sexo, edad__gte/lte, tipo_documental, etnonimos__etonimo__icontains, etc.
+- Drill-down filters: `trayectoria_lugar` (AND across places), `procedencia` (PE origin), `lugar_any` (OR: trajectory place or, for PE, procedencia) — shared by search, crosstab and network endpoints; documented in api/v2/README.md
 - Response: {results, count, next, previous, typeCounts, facets}
 - View modes: table (EntityTable), card (BrowseCards), map (TrajectoryMap for PE only)
 
 ## Existing Aggregation Endpoints (api/v2/views.py)
 - `counts/` — EntityCountsView: returns {personaesclavizada, personanoesclavizada, documento, lugar, corporacion} counts
 - `gender-status-distribution/` — GROUP BY sexo + hispanizacion, returns [{sexo, hispanizacion, count}]
-- `places-people-distribution/` — GROUP BY lugar + tipo + year, aggregates personas per place per year
+- `places-people-distribution/` — GROUP BY lugar + tipo + year, aggregates personas per place per year (trajectory document date; `lugar_any` search results may be slightly higher because they also match procedencia)
 - `travel-trajectories/all_trajectories_summary/` — merges PersonaLugarRel + FK places (procedencia, nacimiento, defuncion), returns {total_places, places:[...]}
 
 ## Frontend Search/Browse Store (src/lib/unified-store.js)
-- unifiedStore: writable with activeTab, viewMode (table/card/map), query, exactSearch, counts, typeCounts, facets
+- unifiedStore: writable with activeTab, viewMode (table/card/map/crosstab/network), query, exactSearch, counts, typeCounts, facets
 - Per-tab state: results, totalResults, currentPage, pageSize, sortField, sortDir, filters, visibleColumns
-- Functions: fetchResults(), setViewMode(), setActiveTab(), toggleSort(), setPage(), setPageSize()
+- Functions: fetchResults(), setViewMode(), setActiveTab(), toggleSort(), setPage(), setPageSize(), applyUrlState()
+- URL sync: all state writes go through `buildSearchUrl()` (src/lib/searchUrl.js); discrete actions (search, clear, tab/page change) push history, intermediate filter edits replace; Search/+page.svelte restores state idempotently from +page.js load data on mount and Back/Forward (root layout sets `trailingSlash: 'always'` so internal `/Search/…` URLs never redirect)
 - Response shape: data.results (entity objects), data.typeCounts (per-type counts in search context), data.facets (sidebar filter buckets)
 
 ## View Components (src/routes/(app)/Search/)
