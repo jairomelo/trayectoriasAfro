@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### API
 
 - Added the `lugar_any` drill-down filter to the search, crosstab and search-network endpoints: persons related to any given place by trajectory (`PersonaLugarRel`) or, for `personaesclavizada`, by `procedencia` origin (OR). This is the filter behind the "Personas por lugar" dashboard drill-down, whose results previously only matched `procedencia` (e.g. Puebla 1635: 124 chart records vs 7 search results). Documented in `api/v2/README.md` together with the chart-vs-search count contract.
+- Fixed the Archivos N+1 on `documento_count`: `ArchivoViewSet.get_queryset()` now annotates `Count('documento')` in a single query and the list/detail serializers prefer the annotation (fallback to `documento_set.count()`); documented in `api/v2/README.md`.
 
 ### Frontend (`mstdb_theme`)
 
@@ -35,6 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added the count-contract note to the chart (chart counts trajectory records; Search also includes procedencia) and an `aria-live` status announcement for drill-down activations.
 - Fixed the broken `?archivo_id=` deep link from Archivos: it is now mapped onto the real `archivo` form filter in `Search/+page.js`, so the sidebar shows the filter and results are actually filtered.
 - Added the missing Paraglide `m` imports on the five Detail pages (`m.loading()` crashed rendering) and new `es`/`en` message keys for the drill-down note, status and breadcrumb.
+
+#### Bug 3 — Archivos live counts
+
+- Counts are live on every page load (`GET /api/v2/archivos/` → annotated `documento_count`): the Archivos page now shows a "live counts" helper line, skeleton placeholders while loading, an `aria-live` status region with an "Updated HH:MM" stamp (locale-formatted), and a retry button on failure instead of failing silently.
+- The null-`archivo_id` entry (Orizaba/Córdoba, still being catalogued) now renders an explicit "count coming soon" badge instead of hiding the count row.
+- New `es`/`en` message keys (`archivos_live_note`, `archivos_counts_loading/error`, `archivos_retry`, `archivos_counts_updated`, `archivos_docs_count`, `archivos_pending_count`); new styles live in `src/styles/custom.css` with `prefers-reduced-motion` support.
 
 ---
 

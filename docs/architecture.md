@@ -35,6 +35,7 @@
 - `gender-status-distribution/` — GROUP BY sexo + hispanizacion, returns [{sexo, hispanizacion, count}]
 - `places-people-distribution/` — GROUP BY lugar + tipo + year, aggregates personas per place per year (trajectory document date; `lugar_any` search results may be slightly higher because they also match procedencia)
 - `travel-trajectories/all_trajectories_summary/` — merges PersonaLugarRel + FK places (procedencia, nacimiento, defuncion), returns {total_places, places:[...]}
+- `archivos/` list/detail — `documento_count` is a live annotated `Count('documento')` (single query); the Archivos page fetches it on every load and shows loading/error/retry states plus an "updated HH:MM" stamp, so counts never go stale
 
 ## Frontend Search/Browse Store (src/lib/unified-store.js)
 - unifiedStore: writable with activeTab, viewMode (table/card/map/crosstab/network), query, exactSearch, counts, typeCounts, facets
