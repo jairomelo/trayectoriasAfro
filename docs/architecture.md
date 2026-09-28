@@ -19,7 +19,14 @@
 - fecha_nacimiento, fecha_defuncion + _raw + _factual variants
 - altura, cabello, ojos (text)
 - marcas_corporales, conducta, salud (text fields)
-- Relational: documentos (M2M), calidades, etnonimos, hispanizacion, estado_civil
+- Relational: documentos (M2M), calidades, etnonimos, hispanizacion, estado_civil, conducta_terms (M2M)
+
+## Canonical conducta vocabulary (ConductaTerm)
+- `ConductaTerm{canonico unique lowercase, aliases[], descripcion}` + `PersonaEsclavizada.conducta_terms` M2M; the archival free-text `conducta` field is never rewritten — the vocabulary is a normalized layer on top (canonical decision + alias list pending team meeting; seeded with `huído → [huido, hullo, huyo, huyeron, escap*, busque]`)
+- Filter `conducta_canonica=<id|texto>` (search + crosstab, crosstab dimension too) resolves a term via `ConductaTerm.resolve()` (id / canonico / accent-insensitive alias) and matches the M2M link OR `conducta__unaccent__icontains` per alias — unlinked records still surface; wildcard aliases (`escap*`) match by prefix
+- FTS: Persona `search_vector` includes `conducta` (weight D) via correlated Subquery + `UNACCENT` (MTI child fields can't be referenced directly from a parent-table UPDATE), so `q=huido` finds `huído`; reindex with `populate_search_vectors --model persona`
+- Backfill: `link_conducta_terms` (dry-run default, `--apply`, `--csv` review report; ambiguous aliases like `busque` and wildcards are review-only)
+- Management UI: `vocabularios/conducta-terms/` API (collision-validated writes), Django admin, legacy-form autocomplete, catalogar multi-select with quick creator + "¿Quisiste decir…?" suggestion, Search sidebar searchable-select on the `conductas` facet, persona detail badges
 
 ## API v2 Search & Browse (api/v2/urls.py, SearchAPIView)
 - Endpoint: `api/v2/search/?type=personaesclavizada&page=1&page_size=30`
@@ -27,6 +34,7 @@
 - Filters: lugar_id, archivo_id, year, etnonimo, calidad, hispanizacion, ocupacion (CSV)
 - Form filters: sexo, edad__gte/lte, tipo_documental, etnonimos__etonimo__icontains, etc.
 - Drill-down filters: `trayectoria_lugar` (AND across places), `procedencia` (PE origin), `lugar_any` (OR: trajectory place or, for PE, procedencia) — shared by search, crosstab and network endpoints; documented in api/v2/README.md
+- Canonical vocabulary filter: `conducta_canonica` (PE only, see "Canonical conducta vocabulary" below)
 - Response: {results, count, next, previous, typeCounts, facets}
 - View modes: table (EntityTable), card (BrowseCards), map (TrajectoryMap for PE only)
 
