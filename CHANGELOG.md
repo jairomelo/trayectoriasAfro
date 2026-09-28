@@ -43,6 +43,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The null-`archivo_id` entry (Orizaba/Córdoba, still being catalogued) now renders an explicit "count coming soon" badge instead of hiding the count row.
 - New `es`/`en` message keys (`archivos_live_note`, `archivos_counts_loading/error`, `archivos_retry`, `archivos_counts_updated`, `archivos_docs_count`, `archivos_pending_count`); new styles live in `src/styles/custom.css` with `prefers-reduced-motion` support.
 
+#### Bug 6 — Valor económico + procedencia en resultados (fase 1: visibilizar lo existente)
+
+- The unified `/api/v2/search/` endpoint now annotates `evento_valor_sp_list`, `evento_forma_de_pago_list` and `evento_total_list` on the enslaved-person queryset, so the previously always-empty Valor/Forma de pago/Total columns now show the aggregated document values.
+- New `evento_valor_sp__icontains` text filter on `/api/v2/search/` (personas and documentos) and the crosstab endpoint, matching the free-text archive value (e.g. "200 pesos").
+- The documento list/detail serializers and the nested documents in the persona detail now expose `evento_valor_sp`, `evento_forma_de_pago` and `evento_total` (CSV exports include them automatically).
+- Search table: the three value columns got clear labels ("Valor (pesos, texto archivo)", "Forma de pago", "Total") and are no longer sortable server-side (free text, ordering silently fell back to the default); the same columns are now available on the Documentos tab, and the value filter is available in the sidebar under Documento. Empty/blank cells render as "—".
+- Documento detail shows Archivo plus Valor del evento / Forma de pago / Total when present; persona esclavizada detail shows a linked Procedencia and per-document Valor/Forma de pago/Total, with document titles linking to the document detail.
+
 ---
 
 ## [1.3.1] - 2026-08-30
