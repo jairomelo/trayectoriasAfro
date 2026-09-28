@@ -43,7 +43,9 @@
 - `gender-status-distribution/` — GROUP BY sexo + hispanizacion, returns [{sexo, hispanizacion, count}]
 - `places-people-distribution/` — GROUP BY lugar + tipo + year, aggregates personas per place per year (trajectory document date; `lugar_any` search results may be slightly higher because they also match procedencia)
 - `travel-trajectories/all_trajectories_summary/` — merges PersonaLugarRel + FK places (procedencia, nacimiento, defuncion), returns {total_places, places:[...]}
+- `travel-trajectories/aggregated/` — route flows for the map; params `limit_rutas` (default 500, max 2000), `min_count` (default 1), `bbox` (keep touching routes); reports `truncated/limit_rutas/min_count`; `route_detail/` (DB pre-filtered) and `place_detail/?lugar_id=&direction=in|out|all` feed the arc/place modals
 - `archivos/` list/detail — `documento_count` is a live annotated `Count('documento')` (single query); the Archivos page fetches it on every load and shows loading/error/retry states plus an "updated HH:MM" stamp, so counts never go stale
+- Overseas origin places (Lisboa, Sevilla, Guinea, Congo, Mozambique, Cabo Verde, Castilla, Portugal, España, Perú, Filipinas) carry real-world coordinates (migration `0021`); São Tomé resolves to "Santo Tomé" (0.32, 6.60)
 
 ## Frontend Search/Browse Store (src/lib/unified-store.js)
 - unifiedStore: writable with activeTab, viewMode (table/card/map/crosstab/network), query, exactSearch, counts, typeCounts, facets
@@ -57,6 +59,7 @@
 - EntityTable.svelte: reads visibleColumns from store, renders sortable table with renderCellValue()
 - BrowseCards.svelte: maps cardComponent per entity type (PersonasEsclavizadasCard, DocumentCard, etc.)
 - TrajectoryMap.svelte: Leaflet + D3 arcs, calls travel-trajectories endpoints
+- Dashboard/viz/ArcsMap.svelte: Leaflet + D3 animated arcs; geometry cached per route+zoom (particle loop does no per-frame projection), invisible wide hit-strokes on arcs + clickable/keyboard place markers opening the place modal (`PlaceDetailPanel`, Entrantes/Salientes via `place_detail/`), "Ver personas" deep-link via `lugar_any`, mobile defaults (100 routes, 30 particles), no D3 transitions above 300 routes
 - BrowseFilters.svelte: sidebar facets, form-based filters
 
 ## Column Config (src/conf/columns.js)
