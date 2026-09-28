@@ -51,6 +51,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Search table: the three value columns got clear labels ("Valor (pesos, texto archivo)", "Forma de pago", "Total") and are no longer sortable server-side (free text, ordering silently fell back to the default); the same columns are now available on the Documentos tab, and the value filter is available in the sidebar under Documento. Empty/blank cells render as "—".
 - Documento detail shows Archivo plus Valor del evento / Forma de pago / Total when present; persona esclavizada detail shows a linked Procedencia and per-document Valor/Forma de pago/Total, with document titles linking to the document detail.
 
+#### Bug 5 — Vocabulario canónico de conducta (`huído` + alias)
+
+- New `ConductaTerm` vocabulary model (`canonico` unique lowercase, `aliases` array, `descripcion`, timestamps) with a `conducta_terms` M2M on `PersonaEsclavizada`. The archival free-text `conducta` field is untouched; the vocabulary adds a normalized layer on top (canonical term decision — `huído` proposed — and final alias list pending the team meeting; the system supports any outcome without recoding).
+- Seeded via data migration: `huído → [huido, hullo, huyo, huyeron, escap*, busque]`. Aliases are normalized on save (lowercase, deduplicated) and validated against collisions with other terms' canonicos.
+- New `conducta_canonica=<id|texto>` filter on `/api/v2/search/` and `/api/v2/crosstab/` (plus a new `conducta_canonica` crosstab dimension): matches the M2M link **and** the free-text `conducta` variants accent-insensitively (PostgreSQL `unaccent`), so unlinked records are still found; wildcard aliases (`escap*`) match by prefix.
+- Full-text search: `conducta` is now part of the Persona `search_vector` (weight D, unaccented), so `q=huido` finds `huído` records; `populate_search_vectors --model persona` reindexes existing rows.
+- New `conductas` facet (canonical term + distinct-person count) in the search response and a `conducta_canonica` searchable-select filter in the Search sidebar (free-text `conducta__icontains` kept as advanced option).
+- New `vocabularios/conducta-terms/` endpoint (read public, write authenticated) with collision-validated write serializer; new Admin page with search/import/export; new `conductaterm-autocomplete` for the legacy cataloging form.
+- New `link_conducta_terms` management command (idempotent, dry-run by default): matches `casefold+unaccent+icontains` per alias, reports `persona_id, conducta_snippet, matched_alias, action` (CSV via `--csv`); ambiguous aliases (`busque`) and wildcard aliases go to a review queue and are only linked with explicit review, never blind.
+- Frontend: catalogar form gets a canonical-vocabulary multi-select with a quick creator and an accent-insensitive "¿Quisiste decir <canónico>?" suggestion over the free-text conducta; persona detail shows canonical badges next to the original text; `MultiSelect` supports the new `canonico` label field. Documented in `api/v2/README.md`.
+
 ---
 
 ## [1.3.1] - 2026-08-30
