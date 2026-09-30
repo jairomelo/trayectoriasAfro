@@ -9,6 +9,32 @@ COMPOSE=(docker compose -f docker-compose.yml -f docker-compose.server.yml -f do
 
 cd "$PROJECT_ROOT"
 
+# Default: back up the database before touching anything (same `dbbackup -c`
+# invocation as the nightly cron, lands in ./backups/ on the host).
+# --no-backup skips it (e.g. stack not running yet on a first deploy).
+SKIP_BACKUP=false
+for arg in "$@"; do
+	case "$arg" in
+	--no-backup) SKIP_BACKUP=true ;;
+	-h | --help)
+		echo "Usage: ./scripts/update.sh [--no-backup]"
+		exit 0
+		;;
+	*)
+		echo "Unknown option: $arg" >&2
+		exit 1
+		;;
+	esac
+done
+
+if [[ "$SKIP_BACKUP" == "false" ]]; then
+	echo "==> Backing up database to ./backups/ ..."
+	# Runs against the currently deployed web container, so the backup always
+	# reflects the pre-update state. A failed backup aborts the update.
+	"${COMPOSE[@]}" exec -T web python manage.py dbbackup -c
+	echo "==> Backup completed."
+fi
+
 git pull --ff-only --recurse-submodules
 git submodule update --init --recursive
 
