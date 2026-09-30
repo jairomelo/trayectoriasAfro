@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `scripts/update.sh` now triggers a database backup before touching the checkout (`manage.py dbbackup -c` against the deployed stack, identical to the nightly cron; output lands in `./backups/`). A failed backup aborts the update; pass `--no-backup` to skip it.
 
+### Frontend (`mstdb_theme`)
+
+- Added an ES/EN language switch to the landing hero, below the account link.
+
 ---
 
 ## [1.4.0] - 2026-09-28
