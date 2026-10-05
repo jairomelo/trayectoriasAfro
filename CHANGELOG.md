@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Repository
 
 - `scripts/update.sh` now triggers a database backup before touching the checkout (`manage.py dbbackup -c` against the deployed stack, identical to the nightly cron; output lands in `./backups/`). A failed backup aborts the update; pass `--no-backup` to skip it.
+- `scripts/update.sh` and `scripts/update_dev.sh` now populate search vectors for PersonaEsclavizada and Persona models after updating the codebase.
 
 ### Frontend (`mstdb_theme`)
 
