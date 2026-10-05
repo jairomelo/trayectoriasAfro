@@ -45,4 +45,7 @@ git submodule update --init --recursive
 "${COMPOSE[@]}" run --rm --no-deps web python manage.py migrate --noinput
 "${COMPOSE[@]}" up -d --force-recreate --wait web frontend
 
+# Populate search vectors for PersonaEsclavizada and Persona models
+"${COMPOSE[@]}" exec -T web python manage.py populate_search_vectors
+
 echo "Production update completed successfully."
