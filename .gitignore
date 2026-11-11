@@ -17,3 +17,6 @@ scripts/restore_latest_backup.sh
 .playwright-mcp/**
 .vscode/extensions.json
 *-2026.11.11.txt
+cloudflare/email-support/node_modules/
+cloudflare/email-support/.wrangler/
+cloudflare/email-support/.dev.vars

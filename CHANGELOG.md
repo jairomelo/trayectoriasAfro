@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Infrastructure
+
+- New Cloudflare Email Worker (`cloudflare/email-support`) for `support@` and `soporte@trayectoriasafro.org`: sends a bilingual automatic acknowledgement (Spanish for `soporte@`, English for `support@`) and forwards each message to the verified team inbox with `X-TA-Route`/`X-TA-Original-To` headers. Auto-replies skip bulk/list/automated senders and any message already carrying the `[TA support]` marker, and `reply()` failures fall back to forwarding only.
+
 ---
 
 ## [1.5.0] - 2026-10-18

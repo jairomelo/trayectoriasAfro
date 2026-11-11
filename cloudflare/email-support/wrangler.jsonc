@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ta-email-support",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-07",
+  "addresses": [
+    "support@trayectoriasafro.org",
+    "soporte@trayectoriasafro.org"
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
