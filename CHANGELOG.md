@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Infrastructure
 
+- `mstdb_theme`: support email (`support@` / `soporte@`, chosen by locale) shown in the footer and the About page via a shared `SupportEmail` component; the address is assembled at runtime to reduce scraping. Replaces the footer's `PUBLIC_CONTACT_EMAIL` link.
 - New Cloudflare Email Worker (`cloudflare/email-support`) for `support@` and `soporte@trayectoriasafro.org`: sends a bilingual automatic acknowledgement (Spanish for `soporte@`, English for `support@`) and forwards each message to the verified team inbox with `X-TA-Route`/`X-TA-Original-To` headers. Auto-replies skip bulk/list/automated senders and any message already carrying the `[TA support]` marker, and `reply()` failures fall back to forwarding only.
 
 ---
