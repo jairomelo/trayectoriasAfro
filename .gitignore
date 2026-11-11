@@ -16,3 +16,4 @@ deposit/.ipynb_checkpoints
 scripts/restore_latest_backup.sh
 .playwright-mcp/**
 .vscode/extensions.json
+*-2026.11.11.txt
