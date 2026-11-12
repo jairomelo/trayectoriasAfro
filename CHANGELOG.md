@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-11
+
+This version incorporates major changes. It replaces the frontend runtime platform (SvelteKit 2 → 3, Vite 7 → 8), changes the config model, removes `$app/stores`, and required runtime migrations.
+
 ### Frontend (`mstdb_theme`)
 
-- Completed the SvelteKit 3 migration that the Dependabot bump required: `@sveltejs/kit` 3.2.0, `@sveltejs/vite-plugin-svelte` 7.3.1, and Vite 8.3.8. SvelteKit config now lives in `vite.config.js` (the `sveltekit()` plugin options) and `svelte.config.js` is removed; `$lib` is kept as an alias because the codebase has not moved to `#lib` subpath imports yet. Dropped the `cookie@0.7.0` override, which conflicted with SvelteKit 3's `cookie@^2` ESM named exports. `npm ci`, `vite build`, Vitest, and the Docker frontend image all pass.
+- Completed the SvelteKit 3 migration that the Dependabot bump required: `@sveltejs/kit` 3.2.0, `@sveltejs/vite-plugin-svelte` 7.3.1, and Vite 8.3.8. SvelteKit config now lives in `vite.config.js` (the `sveltekit()` plugin options) and `svelte.config.js` is removed; `$lib` is kept as an alias because the codebase has not moved to `#lib` subpath imports yet. Dropped the `cookie@0.7.0` override, which conflicted with SvelteKit 3's `cookie@^2` ESM named exports. Migrated the removed `$app/stores` imports: the root layout now uses `$app/state` with `$derived` for the landing/app-chrome switch, and the remaining page components read `page` from `$app/state` at mount (the event editor also follows `afterNavigate` param changes). Fixed the Bootstrap CDN stylesheet URL (`/dist/css/`), which returned a `text/plain` 404 and blocked the CSS. Verified with `npm ci`, `vite build`, Vitest, the Docker frontend image, and browser checks of landing → search client-side navigation.
 
 ### Backend (`mstdb_manager`)
 
