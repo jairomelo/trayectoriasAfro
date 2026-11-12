@@ -11,7 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Backend (`mstdb_manager`)
 
-- Restored the `setuptools<81` cap after Dependabot widened it to `<85`. Setuptools 84 no longer ships `pkg_resources`, which `django-polymorphic` 3.1.0 imports at startup (`ModuleNotFoundError: No module named 'pkg_resources'`). `uv.lock` re-resolved to setuptools 80.10.2.
+- Upgraded `django-polymorphic` 3.1.0 → 4.11.7, which no longer imports the removed `pkg_resources` module. That removes the temporary `setuptools<81` cap: `setuptools` is now 84.2.1, with `typing-extensions` 4.9.0 → 4.16.0 for the new requirement. Migration `0024` drops the stale `base_manager_name` Meta options that polymorphic 3 injected into `PersonaEsclavizada`/`PersonaNoEsclavizada` (metadata only, no schema change).
+- `Corporacion.save()` now computes `corporacion_idno` in place after the initial insert instead of saving twice, so `Corporacion.objects.create()` / `force_insert` no longer raises a duplicate-PK error.
+- Added polymorphic regression tests (subclass resolution, `instance_of`/`not_instance_of`, child-field lookups, history tracking, base `Corporacion` manager) and pinned the seed-vocabulary test to the hard-coded registry id so it no longer depends on test execution order.
 
 ## [1.5.1] - 2026-11-11
 
