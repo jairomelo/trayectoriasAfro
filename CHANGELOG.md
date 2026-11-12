@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Frontend (`mstdb_theme`)
+
+- Completed the SvelteKit 3 migration that the Dependabot bump required: `@sveltejs/kit` 3.2.0, `@sveltejs/vite-plugin-svelte` 7.3.1, and Vite 8.3.8. SvelteKit config now lives in `vite.config.js` (the `sveltekit()` plugin options) and `svelte.config.js` is removed; `$lib` is kept as an alias because the codebase has not moved to `#lib` subpath imports yet. Dropped the `cookie@0.7.0` override, which conflicted with SvelteKit 3's `cookie@^2` ESM named exports. `npm ci`, `vite build`, Vitest, and the Docker frontend image all pass.
+
 ### Backend (`mstdb_manager`)
 
 - Upgraded `django-polymorphic` 3.1.0 → 4.11.7, which no longer imports the removed `pkg_resources` module. That removes the temporary `setuptools<81` cap: `setuptools` is now 84.2.1, with `typing-extensions` 4.9.0 → 4.16.0 for the new requirement. Migration `0024` drops the stale `base_manager_name` Meta options that polymorphic 3 injected into `PersonaEsclavizada`/`PersonaNoEsclavizada` (metadata only, no schema change).
