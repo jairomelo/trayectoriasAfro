@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Frontend
+
+- `mstdb_theme` Search: every sidebar filter label and results-table column header now shows a short localized (ES/EN) definition as a Bootstrap tooltip on hover and keyboard focus (dotted underline, visible focus ring; sortable headers keep Enter/Space sorting and expose `aria-sort`). The ungrouped name/title search gained a visible, associated label. Copy lives in Paraglide `help_*` messages wired through `helpKey` in `src/conf/columns.js`, condensed from the deposit metadata dictionary; a Vitest guard fails if a column/filter or locale is missing help text.
+
 ### Infrastructure
 
 - `mstdb_theme`: support email (`support@` / `soporte@`, chosen by locale) shown in the footer and the About page via a shared `SupportEmail` component; the address is assembled at runtime to reduce scraping. Replaces the footer's `PUBLIC_CONTACT_EMAIL` link.
