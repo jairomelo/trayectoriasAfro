@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Frontend (`mstdb_theme`)
 
+- Fixed the `/Dashboard/mapa-trayectorias/` 500: Vite 8 (Rolldown) trusted d3's `"sideEffects": false` and dropped the `d3-transition` re-export, so `selection.transition`/`interrupt` were missing from the production bundle. `d3-transition` is now a direct dependency imported for its side effects in `ArcsMap.svelte`, the async map setup bails out if the component is torn down mid-load, and `tests/trajectory-map.spec.js` guards the built bundle.
 - Restored the themed primary color (`#8b4513`). The 1.6.0 fix to the Bootstrap CDN stylesheet URL (`/dist/css/`) made a second, untinted Bootstrap 5.3.2 sheet load after the compiled bundle in production and override `$theme-colors`. Removed the CDN Bootstrap CSS and JS tags in `src/app.html`; the Sass-themed npm Bootstrap 5.3.9 import is now the only copy.
 - The `dropdown` action no longer adds its own `click` handler; it relies on Bootstrap's local data-api, which already binds `[data-bs-toggle="dropdown"]`. Without the CDN bundle, the extra listener would toggle a second time and cancel the open.
 - `.search-btn i` now inherits the button color instead of forcing black, so the hero search icon is white on `#8b4513` (about 7.1:1) rather than black on brown (about 2.96:1, below the 3:1 non-text threshold).
