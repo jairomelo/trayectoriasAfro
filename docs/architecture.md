@@ -68,7 +68,7 @@
 - BrowseCards.svelte: maps cardComponent per entity type (PersonasEsclavizadasCard, DocumentCard, etc.)
 - TrajectoryMap.svelte: Leaflet + D3 arcs, calls travel-trajectories endpoints
 - Dashboard/viz/ArcsMap.svelte: Leaflet + D3 animated arcs; geometry cached per route+zoom (particle loop does no per-frame projection), invisible wide hit-strokes on arcs + clickable/keyboard place markers opening the place modal (`PlaceDetailPanel`, Entrantes/Salientes via `place_detail/`), "Ver personas" deep-link via `lugar_any`, mobile defaults (100 routes, 30 particles), no D3 transitions above 300 routes
-- BrowseFilters.svelte: sidebar facets, form-based filters
+- BrowseFilters.svelte: sidebar facets, form-based filters; labels are focusable and carry the localized `helpKey` tooltip
 
 ## Column Config (src/conf/columns.js)
 - columnsConfig: per-entity array of {key, label, sortable, visible}
@@ -77,6 +77,7 @@
 - entityIdField: {persona_id, documento_id, lugar_id, corporacion_id}
 - renderCellValue(): custom formatters (edad+unit, date handling, arrays, nested objects)
 - filtersDefinition: per-entity filter UI (searchable-select, id-searchable-select, text, select, year, date)
+- helpKey: every column and filter carries a `help_*` Paraglide key rendered as a tooltip on filter labels and table headers; `src/conf/columns.help.test.js` enforces coverage and ES/EN parity. This intentionally duplicates prose from the deposit metadata dictionary instead of reusing `VariableDefinition` / `/api/v2/data-dictionary/`, because many Search fields are UI-derived (`short_id`, `documento_list`, counts, `has_*`) and the registry keys do not map cleanly to Search config keys.
 
 ## Serializers (api/v2/serializers.py)
 - Reference: lightweight (id, name fields only)
