@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Backend (`mstdb_manager`)
+
+- Restored the `setuptools<81` cap after Dependabot widened it to `<85`. Setuptools 84 no longer ships `pkg_resources`, which `django-polymorphic` 3.1.0 imports at startup (`ModuleNotFoundError: No module named 'pkg_resources'`). `uv.lock` re-resolved to setuptools 80.10.2.
+
 ## [1.5.1] - 2026-11-11
 
 ### Frontend
