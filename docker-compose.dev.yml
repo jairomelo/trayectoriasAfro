@@ -45,6 +45,6 @@ services:
         - action: rebuild
           path: ./mstdb_theme/package.json
         - action: rebuild
-          path: ./mstdb_theme/svelte.config.js
+          path: ./mstdb_theme/package-lock.json
         - action: rebuild
           path: ./mstdb_theme/vite.config.js
